@@ -1,4 +1,8 @@
-module.exports.home=function(req,res){
-    return res.send('<h1>Express is up for Codiel!!</h1>');
+module.exports.home = function(req, res){
+    
+    return res.render('home', {
+        title: "Home"
+    });
 }
-//module.exports.actionName=function(req,res){}
+
+// module.exports.actionName = function(req, res){}
