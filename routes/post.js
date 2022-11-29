@@ -7,4 +7,5 @@ const postsController=require('../controllers/postcontroller');
 //allow only the signed in user to post
 
 router.post('/create',passport.checkAuthentication,postsController.create);
+router.get('/destroy/:id',passport.checkAuthentication,postsController.destroy);
 module.exports=router;
