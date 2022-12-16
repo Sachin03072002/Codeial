@@ -23,17 +23,18 @@ app.use(sassMiddleware({
     outputStyle:'expanded',
     prefix:'/css'
 }));
-//extract style and scripts from sub pages into the layouts
-app.set('layout extractStyles',true);
-app.set('layout extractScripts',true);
 
 app.use(express.urlencoded());
 app.use(cookieParser());
-
+//make the upload path available to the browser
+app.use('/uploads',express.static(__dirname+'/uploads'));
 app.use(express.static('./assets'));
 
 app.use(expressLayouts);
 
+//extract style and scripts from sub pages into the layouts
+app.set('layout extractStyles',true);
+app.set('layout extractScripts',true);
 
 
 // set up the view engine
