@@ -10,6 +10,7 @@ const session=require('express-session');
 const passport=require('passport');
 const passportLocal=require('./config/passport_layout_stratergy');
 const passportJWT=require('./config/passport-jwt-stratergy');
+const passportGoogle=require('./config/passport-google-oauth2-stratergy');
 const { Store } = require('express-session');
 const MongoStore=require('connect-mongo')(session);
 const sassMiddleware=require('node-sass-middleware');
