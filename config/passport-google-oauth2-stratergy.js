@@ -2,21 +2,23 @@ const passport=require('passport');
 const googleStratergy=require('passport-google-oauth').OAuth2Strategy;
 const crypto= require('crypto');
 const USer=require('../models/user');
-const User = require('../models/user');
+
 
 
 //tell passport to use a stratergy for google login
 passport.use(new googleStratergy({
-    clientID: "279437893366-987smcl2oracg95bb4l9o3orj2jvtqkj.apps.googleusercontent.com",
-    clientSecret: "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",
-    callbackURL:"http://localhost:8000/users/auth/google/callback",
+        clientID: "279437893366-987smcl2oracg95bb4l9o3orj2jvtqkj.apps.googleusercontent.com",
+        clientSecret: "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",
+        callbackURL: "http://localhost:8000/users/auth/google/callback",
     },
     function(accessToken, refreshToken, profile, done){
+        //findOne
         USer.findOne({email: profile.emails[0].value}).exec(function(err,user){
             if(err){
                 console.log('error in google stratergy passport',err);
                 return;
             }
+            console.log(accessToken, refreshToken);
             console.log(profile);
             if(user){
                 //if found , set this user as req.user

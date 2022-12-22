@@ -25,7 +25,7 @@ module.exports.update = async function(req,res){
                 }
                 // console.log(req.file);
                 user.name = req.body.name;
-                user.email - req.body.email;
+                user.email = req.body.email;
                 if(req.file){
                     if(user.avatar){
                         fs.unlinkSync(path.join(__dirname,'..',user.avatar));
