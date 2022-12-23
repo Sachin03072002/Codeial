@@ -1,5 +1,7 @@
 // Let's implement this via classes
 
+const { toggleLike } = require("../../controllers/likes_controller");
+
 // this class would be initialized for every post on the page
 // 1. When the page loads
 // 2. Creation of every post dynamically via AJAX
@@ -36,6 +38,8 @@ class PostComments{
                     $(`#post-comments-${postId}`).prepend(newComment);
                     pSelf.deleteComment($(' .delete-comment-button', newComment));
 
+                    new toggleLike($(' .toggle-like-button', newComment));
+
                     new Noty({
                         theme: 'relax',
                         text: "Comment published!",
@@ -69,6 +73,11 @@ class PostComments{
                             <small>
                                 ${comment.user.name}
                             </small>
+                            <small>
+                            <a class="toggle-like-button" data-likes="0" href="/likes/toggle/?id=${comment._id}&type=Post">
+                                0 Likes
+                            </a>    
+                        </small>
                         </p>    
 
                 </li>`);
