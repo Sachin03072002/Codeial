@@ -3,11 +3,11 @@ const Comment=require("../models/comment");
 const Post=require("../models/post");
 
 
-module.exports.toggleLike=async function(req,res){
+module.exports.toggleLike = async function(req,res){
     try{
         // likes/toggle/?id=abcdef&type=Post
         let likeable;
-        let deleted= false;
+        let deleted = false;
 
 
         if(req.query.type == 'Post'){
@@ -34,13 +34,13 @@ module.exports.toggleLike=async function(req,res){
             deleted=true;
         }else{
             //make a new like
-            let newLike= await Like.create({
+            let newLike = await Like.create({
                 user: req.user._id,
                 likeable: req.query.id,
                 onModel: req.query.type
             });
 
-            likeable.likes.push(newlike._id);
+            likeable.likes.push(newLike._id);
             likeable.save();
         }
 
@@ -50,7 +50,7 @@ module.exports.toggleLike=async function(req,res){
             data: {
                 deleted: deleted
             }
-        })
+        });
 
 
     }catch(err){

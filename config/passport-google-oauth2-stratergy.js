@@ -1,19 +1,20 @@
 const passport=require('passport');
 const googleStratergy=require('passport-google-oauth').OAuth2Strategy;
 const crypto= require('crypto');
-const USer=require('../models/user');
+const User=require('../models/user');
+const env= require('./environment');
 
 
 
 //tell passport to use a stratergy for google login
 passport.use(new googleStratergy({
-        clientID: "279437893366-987smcl2oracg95bb4l9o3orj2jvtqkj.apps.googleusercontent.com",
-        clientSecret: "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",
-        callbackURL: "http://localhost:8000/users/auth/google/callback",
+        clientID: env.google_client_id,
+        clientSecret: env.google_client_secret,
+        callbackURL: env.google_callback_uRL
     },
     function(accessToken, refreshToken, profile, done){
         //findOne
-        USer.findOne({email: profile.emails[0].value}).exec(function(err,user){
+        User.findOne({email: profile.emails[0].value}).exec(function(err,user){
             if(err){
                 console.log('error in google stratergy passport',err);
                 return;
@@ -31,7 +32,7 @@ passport.use(new googleStratergy({
                     email: profile.emails[0].value,
                     password: crypto.randomBytes(20).toString('hex')
 
-                },function(err){
+                },function(err, user){
                     if(err){
                         console.log('error in creating user google stratergy passport',err);
                         return;

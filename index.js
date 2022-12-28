@@ -17,14 +17,32 @@ const sassMiddleware=require('node-sass-middleware');
 const { debug } = require('console');
 const flash=require('connect-flash');
 const customMWare=require('./config/middleware');
+const env= require('./config/environment');
+const logger=require('morgan');
+// set up the chart server to be used with socket.io
+const chatServer= require('http').Server(app);
+const io=require('socket.io')(chatServer, {
+    CORS: {
+        origin: '*'
+    }
+});
 
-app.use(sassMiddleware({
-    src: './assets/scss',
-    dest:'./assets/css',
-    debug:true,
-    outputStyle:'expanded',
-    prefix:'/css'
-}));
+const chatSocket= require('./config/chat_socket').chatSockets(chatServer);
+chatServer.listen(5000);
+console.log('chat server is listening on port 5000');
+const path=require('path');
+const environment = require('./config/environment');
+
+if(env.name == 'development'){
+    app.use(sassMiddleware({
+        src: path.join(__dirname, './assets', '/scss'),
+        dest: path.join(__dirname, './assets', 'css'),
+        debug:true,
+        outputStyle:'expanded',
+        prefix:'/css'
+    }));
+}
+
 
 app.use(express.urlencoded());
 app.use(cookieParser());
@@ -34,6 +52,8 @@ app.use(express.static('./assets'));
 app.use('/uploads',express.static(__dirname+'/uploads'));
 
 app.use(expressLayouts);
+
+app.use(logger(environment.morgan.mode, env.morgan.options));
 
 //extract style and scripts from sub pages into the layouts
 app.set('layout extractStyles',true);
@@ -47,7 +67,7 @@ app.set('views', './views');
 app.use(session({
     name: 'codeial',
     //todo cheange the secret before deployment in production mode
-    secret: 'blasomething',
+    secret: env.session_cookie_key,
     saveUninitialized:false,//when the user is not looged in
     resave:false, //when the user is looged in it is not need to alter its information
     cookie:{
@@ -64,6 +84,16 @@ app.use(session({
         }
     )
 }));
+
+// import { createServer } from "http";
+// import { Server } from "socket.io";
+
+// const httpServer = chatServer();
+// const io = new chatSocket(chatServer, {
+//     cors: {
+//       origin: "https://example.com"
+//     }
+//   });
 
 
 app.use(passport.initialize());

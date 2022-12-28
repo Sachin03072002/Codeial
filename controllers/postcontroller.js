@@ -8,10 +8,12 @@ module.exports.create = async function(req,res){
             content: req.body.content,
             user: req.user._id
         });
-
+        console.log('call');
         if(req.xhr){
+            console.log('123');
             //if we want to populate just the name of the user (we'll not want to send the password in theAPI), this is how we do it
             post = await post.populate('user','name').execPopulate();
+            console.log('12345');
             return res.status(200).json({
                 data: {
                     post: post
@@ -24,7 +26,7 @@ module.exports.create = async function(req,res){
     }catch(err){
         // console.log("Error: ",err);
         req.flash('error',err);
-        return res.redirect('back');;
+        return res.redirect('back');
     }
     
 }

@@ -1,5 +1,5 @@
-const { toggleLike } = require("../../controllers/likes_controller");
-
+// const { toggleLike } = require("../../controllers/likes_controller");
+// import *(PostComments)=require('./home_comment');
 {   
     // method to submit the form data for new post using AJAX
     let createPost = function(){

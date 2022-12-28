@@ -2,16 +2,17 @@ const passport=require('passport');
 const JWTStratergy = require('passport-jwt').Strategy;
 
 const ExtractJWT = require('passport-jwt').ExtractJwt;
-const user=require('../models/user');
-
+const User = require('../models/user');
+const env= require('./environment');
 let opts={
     jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-    secretOrKey:'codeial'
+    secretOrKey: process.env.CODEIAL_JWT_SECRET
+
 }
 
 
 passport.use(new JWTStratergy(opts,function(jwtPayLoad,done){
-    user.findById(jwtPayLoad._id, function(err,user){
+    User.findById(jwtPayLoad._id, function(err,user){
         if(err){
             console.log('Error in finding user from Jwt');
             return;

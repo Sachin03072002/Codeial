@@ -1,4 +1,4 @@
-const { $where } = require("../../models/like");
+// const { $where } = require("../../models/like");
 
 // create a class to toggle likes when a link is clicked, using AJAX
 class ToggleLike{
@@ -8,12 +8,12 @@ class ToggleLike{
     }
 
     toggleLike(){
-        $where(this.toggler).click(function(e){
+        $(this.toggler).click(function(e){
             e.preventDefault();
             let self= this;
 
             // this is a new way of writing ajax which you might have MediaStreamAudioDestinationNode,it looks like the same as promises
-            $where.ajax({
+            $.ajax({
                 type:'POST',
                 url: $(self).attr('href'),
             })
