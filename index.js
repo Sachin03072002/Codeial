@@ -1,7 +1,11 @@
 const express = require('express');
+const env= require('./config/environment');
+const logger=require('morgan');
+
 //setting cookies
 const cookieParser=require('cookie-parser');
 const app = express();
+// require('./config/view-helpers')(app);
 const port = 8000;
 const expressLayouts = require('express-ejs-layouts');
 const db=require('./config/mongoose');
@@ -17,8 +21,8 @@ const sassMiddleware=require('node-sass-middleware');
 const { debug } = require('console');
 const flash=require('connect-flash');
 const customMWare=require('./config/middleware');
-const env= require('./config/environment');
-const logger=require('morgan');
+
+
 // set up the chart server to be used with socket.io
 const chatServer= require('http').Server(app);
 const io=require('socket.io')(chatServer, {
